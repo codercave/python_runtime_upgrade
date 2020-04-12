@@ -1,18 +1,17 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  python_runtime_upgrade
+Description: 'python_runtime_upgrade
 
+  '
 Globals:
   Function:
     Timeout: 30
     MemorySize: 512
-
 Resources:
   HashMe37:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: s3://cloudformation-442255044367/9592103e7be594bc9e4be4e75056fb71
       Handler: app.lambda_handler
       Runtime: python3.7
       Events:
@@ -21,12 +20,11 @@ Resources:
           Properties:
             Path: /hashme37
             Method: post
-      Tracing: 'Active'
-
+      Tracing: Active
   HashMe38:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/
+      CodeUri: s3://cloudformation-442255044367/9592103e7be594bc9e4be4e75056fb71
       Handler: app.lambda_handler
       Runtime: python3.8
       Events:
@@ -35,5 +33,4 @@ Resources:
           Properties:
             Path: /hashme38
             Method: post
-      Tracing: 'Active'
-
+      Tracing: Active
