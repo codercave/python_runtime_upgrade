@@ -11,4 +11,4 @@ def lambda_handler(event, context):
 
     digest = sha256.hexdigest()
 
-    return {"statusCode": 200, "body": json.dumps({'hash': digest})}
+    return {"statusCode": 200, "body": {'hash': digest}}
