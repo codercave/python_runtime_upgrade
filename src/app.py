@@ -1,6 +1,20 @@
 import json
 import hashlib
 import boto3
+from flask import Flask
+
+
+application = Flask(__name__)
+
+
+@application.route('/hashme', methods=['GET'])
+def hashme():
+
+    digest = _pull_and_hash()
+    return {
+        "statusCode": 200,
+        "body": json.dumps({"hash": digest})
+    }
 
 
 def lambda_handler(event, context):
