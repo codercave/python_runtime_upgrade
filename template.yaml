@@ -20,8 +20,10 @@ Resources:
           Type: Api
           Properties:
             Path: /hashme37
-            Method: post
+            Method: get
       Tracing: 'Active'
+      Policies:
+        - !Ref BucketAccess
 
   HashMe38:
     Type: AWS::Serverless::Function
@@ -34,6 +36,22 @@ Resources:
           Type: Api
           Properties:
             Path: /hashme38
-            Method: post
+            Method: get
       Tracing: 'Active'
+      Policies:
+        - !Ref BucketAccess
 
+  BucketAccess:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: "Policy that allows to read from the bucket"
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:HeadObject
+            Resource:
+              - 'arn:aws:s3:::lambda-coldstart'
+              - 'arn:aws:s3:::lambda-coldstart/*'

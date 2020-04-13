@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 .idea/
+packaged-template.yaml

@@ -1,14 +1,28 @@
 import json
 import hashlib
+import boto3
 
 
 def lambda_handler(event, context):
-    body = json.loads(event['body'])
-    document = body['document']
 
-    sha256 = hashlib.sha256()
-    sha256.update(document.encode())
+    digest = _pull_and_hash()
 
-    digest = sha256.hexdigest()
+    return {
+        "statusCode": 200,
+        "body": json.dumps({"hash": digest})
+    }
 
-    return {"statusCode": 200, "body": {'hash': digest}}
+
+def _pull_and_hash():
+    s3 = boto3.client('s3')
+
+    with open('/tmp/ids.csv', 'wb') as data:
+        s3.download_fileobj('lambda-coldstart', 'ids.csv', data)
+
+    with open('/tmp/ids.csv', 'r') as data:
+        content = data.read()
+
+    sha = hashlib.sha256()
+
+    sha.update(content.encode())
+    return sha.hexdigest()
